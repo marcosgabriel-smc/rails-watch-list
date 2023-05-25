@@ -1,0 +1,26 @@
+
+<div class="container">
+  <div>
+    <h1><%= @list.name %></h1>
+
+    <% if @list.bookmarks.empty? %>
+      <p>Include itens in this list</p>
+    <% else %>
+        <% @list.bookmarks.each do |bookmark| %>
+          <ul>
+            <li><%= bookmark.movie.title %> | <%= bookmark.comment %> | <%= link_to "Delete", bookmark_path(bookmark), data: { turbo_method: :delete, turbo_confirm: "Apagar #{bookmark.movie.title}?"} %></li>
+          </ul>
+        <% end %>
+    <% end %>
+  </div>
+
+
+  <div>
+    <%= simple_form_for([@list, @bookmark]) do |f| %>
+      <%= f.association :movie %>
+      <%= f.input :comment %>
+      <%= f.button :submit %>
+    <% end %>
+  </div>
+  <%= link_to "Go back to all lists", lists_path %>
+</div>
